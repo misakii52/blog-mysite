@@ -1,1 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Bookpango</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js"></script>
+</head>
+<body>
+    <div class="admin-wrapper">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <h1>Bookpango Admin</h1>
+            </div>
+            
+            <nav class="admin-nav">
+                <ul class="admin-nav-list">
+                    <li class="admin-nav-item">
+                        <a href="/admin/" class="admin-nav-link active">
+                            <span class="admin-nav-icon">📊</span>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="/admin/posts.html" class="admin-nav-link">
+                            <span class="admin-nav-icon">📝</span>
+                            Posts
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="/admin/create-post.html" class="admin-nav-link">
+                            <span class="admin-nav-icon">➕</span>
+                            Add New Post
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="/admin/categories.html" class="admin-nav-link">
+                            <span class="admin-nav-icon">📚</span>
+                            Categories
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="/admin/slider.html" class="admin-nav-link">
+                            <span class="admin-nav-icon">🖼️</span>
+                            Slider
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="/admin/comments.html" class="admin-nav-link">
+                            <span class="admin-nav-icon">💬</span>
+                            Comments
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="/admin/media.html" class="admin-nav-link">
+                            <span class="admin-nav-icon">🖼️</span>
+                            Media
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="/admin/seo.html" class="admin-nav-link">
+                            <span class="admin-nav-icon">🔍</span>
+                            SEO
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="/admin/analytics.html" class="admin-nav-link">
+                            <span class="admin-nav-icon">📈</span>
+                            Analytics
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="#" id="adminLogout" class="admin-nav-link">
+                            <span class="admin-nav-icon">🚪</span>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h2 class="admin-title">Dashboard</h2>
+                <div class="admin-user">
+                    <div class="admin-user-avatar">
+                        <img id="adminUserAvatar" src="" alt="Admin">
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Stats Cards -->
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3 class="dashboard-card-title">Total Posts</h3>
+                        <div class="dashboard-card-icon posts">📝</div>
+                    </div>
+                    <p class="dashboard-card-value" id="totalPosts">0</p>
+                    <p class="dashboard-card-change">+0 this month</p>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3 class="dashboard-card-title">Total Comments</h3>
+                        <div class="dashboard-card-icon comments">💬</div>
+                    </div>
+                    <p class="dashboard-card-value" id="totalComments">0</p>
+                    <p class="dashboard-card-change">+0 this month</p>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3 class="dashboard-card-title">Pending Comments</h3>
+                        <div class="dashboard-card-icon views">👁️</div>
+                    </div>
+                    <p class="dashboard-card-value" id="pendingComments">0</p>
+                    <p class="dashboard-card-change">Require attention</p>
+                </div>
+            </div>
+            
+            <!-- Recent Posts -->
+            <div class="admin-section">
+                <h3 class="section-title">Recent Posts</h3>
+                <div class="admin-table-container">
+                    <div id="recentPosts">
+                        <!-- Recent posts will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="admin-section">
+                <h3 class="section-title">Quick Actions</h3>
+                <div class="quick-actions">
+                    <a href="/admin/create-post.html" class="btn btn-primary">Create New Post</a>
+                    <a href="/admin/comments.html" class="btn btn-outline">Moderate Comments</a>
+                    <a href="/admin/slider.html" class="btn btn-outline">Manage Slider</a>
+                </div>
+            </div>
+        </main>
+    </div>
 
+    <!-- Scripts -->
+    <script src="/js/firebase.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/database.js"></script>
+    <script src="/js/admin.js"></script>
+</body>
+</html>
