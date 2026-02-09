@@ -4,7 +4,7 @@ class HeroSlider {
         this.slides = [];
         this.currentSlide = 0;
         this.autoSlideInterval = null;
-        this.slideDuration = 5000; // 5 seconds
+        this.slideDuration = 5000;
         this.init();
     }
     
@@ -19,7 +19,6 @@ class HeroSlider {
         try {
             this.slides = await dbManager.getSliderItems();
             
-            // If no slides in database, use defaults
             if (this.slides.length === 0) {
                 this.slides = this.getDefaultSlides();
             }
@@ -56,7 +55,6 @@ class HeroSlider {
         
         if (!sliderContainer || this.slides.length === 0) return;
         
-        // Render slides
         sliderContainer.innerHTML = this.slides.map((slide, index) => `
             <div class="slide ${index === 0 ? 'active' : ''}" data-index="${index}">
                 <div class="slide-background" 
@@ -72,7 +70,6 @@ class HeroSlider {
             </div>
         `).join('');
         
-        // Render dots
         if (sliderDots) {
             sliderDots.innerHTML = this.slides.map((_, index) => `
                 <button class="slider-dot ${index === 0 ? 'active' : ''}" 
@@ -105,7 +102,6 @@ class HeroSlider {
             });
         }
         
-        // Pause auto-slide on hover
         const slider = document.getElementById('heroSlider');
         if (slider) {
             slider.addEventListener('mouseenter', () => this.pauseAutoSlide());
@@ -116,14 +112,12 @@ class HeroSlider {
     goToSlide(index) {
         if (index < 0 || index >= this.slides.length) return;
         
-        // Hide current slide
         const currentSlide = document.querySelector('.slide.active');
         const currentDot = document.querySelector('.slider-dot.active');
         
         if (currentSlide) currentSlide.classList.remove('active');
         if (currentDot) currentDot.classList.remove('active');
         
-        // Show new slide
         this.currentSlide = index;
         const newSlide = document.querySelector(`.slide[data-index="${index}"]`);
         const newDot = document.querySelector(`.slider-dot[data-index="${index}"]`);
@@ -131,7 +125,6 @@ class HeroSlider {
         if (newSlide) newSlide.classList.add('active');
         if (newDot) newDot.classList.add('active');
         
-        // Reset auto-slide timer
         this.resetAutoSlide();
     }
     
@@ -166,7 +159,7 @@ class HeroSlider {
     }
 }
 
-// Initialize slider when DOM is loaded
+// Initialize slider
 document.addEventListener('DOMContentLoaded', () => {
     const slider = new HeroSlider();
     window.heroSlider = slider;
