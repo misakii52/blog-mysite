@@ -1,0 +1,230 @@
+/* Dark Mode Styles */
+
+.dark-mode {
+    --background-color: #111827;
+    --background-alt: #1f2937;
+    --text-color: #f9fafb;
+    --text-light: #d1d5db;
+    --border-color: #374151;
+    --primary-color: #60a5fa;
+    --primary-dark: #3b82f6;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .main-header {
+    background-color: var(--background-alt);
+    box-shadow: var(--shadow-md);
+}
+
+.dark-mode .book-card,
+.dark-mode .review-card,
+.dark-mode .category-card {
+    background-color: var(--background-alt);
+}
+
+.dark-mode .search-form {
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+}
+
+.dark-mode .search-input {
+    color: var(--text-color);
+}
+
+.dark-mode .search-suggestions {
+    background-color: var(--background-alt);
+    border: 1px solid var(--border-color);
+}
+
+.dark-mode .suggestion-item:hover {
+    background-color: var(--background-color);
+}
+
+.dark-mode .btn-outline {
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.dark-mode .btn-outline:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.dark-mode .user-dropdown {
+    background-color: var(--background-alt);
+    border: 1px solid var(--border-color);
+}
+
+.dark-mode .dropdown-item:hover {
+    background-color: var(--background-color);
+}
+
+.dark-mode .mobile-nav {
+    background-color: var(--background-alt);
+    border-color: var(--border-color);
+}
+
+.dark-mode .section-title {
+    color: var(--text-color);
+}
+
+.dark-mode .book-author,
+.dark-mode .review-date,
+.dark-mode .category-count {
+    color: var(--text-light);
+}
+
+.dark-mode .book-meta,
+.dark-mode .tag {
+    color: var(--text-light);
+}
+
+.dark-mode .tag {
+    background-color: var(--background-color);
+}
+
+.dark-mode .newsletter-section {
+    background-color: var(--background-alt);
+}
+
+.dark-mode .newsletter-input {
+    background-color: var(--background-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.dark-mode .newsletter-input:focus {
+    border-color: var(--primary-color);
+}
+
+.dark-mode .main-footer {
+    background-color: var(--background-alt);
+}
+
+.dark-mode .social-link {
+    background-color: var(--background-color);
+}
+
+.dark-mode .social-link:hover {
+    background-color: var(--primary-color);
+}
+
+/* Dark mode for admin panel */
+.dark-mode .admin-wrapper {
+    background-color: var(--background-color);
+}
+
+.dark-mode .admin-sidebar {
+    background-color: var(--background-alt);
+}
+
+.dark-mode .admin-brand {
+    border-color: var(--border-color);
+}
+
+.dark-mode .admin-nav-link:hover,
+.dark-mode .admin-nav-link.active {
+    background-color: var(--background-color);
+}
+
+.dark-mode .admin-main {
+    background-color: var(--background-color);
+}
+
+.dark-mode .admin-header {
+    border-color: var(--border-color);
+}
+
+.dark-mode .dashboard-card {
+    background-color: var(--background-alt);
+}
+
+.dark-mode .dashboard-card-value {
+    color: var(--text-color);
+}
+
+.dark-mode .admin-table-container {
+    background-color: var(--background-alt);
+}
+
+.dark-mode .admin-table thead {
+    background-color: var(--background-color);
+}
+
+.dark-mode .admin-table th,
+.dark-mode .admin-table td {
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.dark-mode .admin-table tbody tr:hover {
+    background-color: var(--background-color);
+}
+
+.dark-mode .admin-form-container {
+    background-color: var(--background-alt);
+}
+
+.dark-mode .form-control {
+    background-color: var(--background-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.dark-mode .file-upload {
+    border-color: var(--border-color);
+}
+
+.dark-mode .file-upload:hover {
+    border-color: var(--primary-color);
+}
+
+.dark-mode .file-upload-label {
+    color: var(--text-light);
+}
+
+/* Dark mode toggle button */
+.theme-toggle {
+    position: fixed;
+    bottom: var(--spacing-xl);
+    right: var(--spacing-xl);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Dark mode transition */
+body,
+.header-container,
+.slide-content,
+.book-card,
+.review-card,
+.category-card,
+.newsletter-section,
+.main-footer,
+.admin-sidebar,
+.dashboard-card,
+.admin-table-container,
+.admin-form-container {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
