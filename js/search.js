@@ -12,7 +12,7 @@ class SearchManager {
     
     async buildSearchIndex() {
         try {
-            const posts = await dbManager.getPosts(100); // Get up to 100 posts for index
+            const posts = await dbManager.getPosts(100);
             this.searchIndex = posts.map(post => ({
                 id: post.id,
                 title: post.title,
@@ -79,7 +79,6 @@ class SearchManager {
             
             suggestionsContainer.style.display = 'block';
             
-            // Add click handlers
             suggestionsContainer.querySelectorAll('.suggestion-item').forEach(item => {
                 item.addEventListener('click', () => {
                     const query = item.dataset.query;
@@ -102,7 +101,6 @@ class SearchManager {
         const queryLower = query.toLowerCase();
         const suggestions = new Set();
         
-        // Search in index
         this.searchIndex.forEach(item => {
             if (item.title.toLowerCase().includes(queryLower)) {
                 suggestions.add(JSON.stringify({
@@ -136,7 +134,15 @@ class SearchManager {
     
     async performSearch(query) {
         try {
-            return await dbManager.searchPosts(query);
+            const posts = await dbManager.getPosts(100);
+            const searchTerms = query.toLowerCase().split(' ');
+            
+            const results = posts.filter(post => {
+                const searchText = `${post.title} ${post.excerpt} ${post.bookInfo?.author} ${post.tags?.join(' ')}`.toLowerCase();
+                return searchTerms.some(term => searchText.includes(term));
+            });
+            
+            return results;
         } catch (error) {
             console.error('Error performing search:', error);
             return [];
@@ -144,7 +150,7 @@ class SearchManager {
     }
 }
 
-// Initialize search when DOM is loaded
+// Initialize search
 document.addEventListener('DOMContentLoaded', () => {
     const searchManager = new SearchManager();
     window.searchManager = searchManager;
