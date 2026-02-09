@@ -25,7 +25,6 @@ class BookpangoApp {
     
     async loadPopularBooks() {
         try {
-            // For now, get latest posts as popular
             this.popularBooks = await dbManager.getPosts(6);
             this.renderPopularBooks();
         } catch (error) {
@@ -66,7 +65,6 @@ class BookpangoApp {
         }
         
         if (footerCategories && this.categories.length > 0) {
-            // Show top 5 categories in footer
             const topCategories = this.categories.slice(0, 5);
             footerCategories.innerHTML = topCategories.map(category => `
                 <li><a href="/categories.html?id=${category.id}">${category.name}</a></li>
@@ -169,7 +167,6 @@ class BookpangoApp {
     }
     
     setupEventListeners() {
-        // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileNav = document.getElementById('mobileNav');
         
@@ -180,7 +177,6 @@ class BookpangoApp {
             });
         }
         
-        // Newsletter form
         const newsletterForm = document.getElementById('newsletterForm');
         if (newsletterForm) {
             newsletterForm.addEventListener('submit', async (e) => {
@@ -219,12 +215,10 @@ class BookpangoApp {
     }
     
     showNotification(message, type = 'info') {
-        // Create notification element
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
         notification.textContent = message;
         
-        // Style notification
         notification.style.cssText = `
             position: fixed;
             top: 20px;
@@ -238,10 +232,8 @@ class BookpangoApp {
             animation: slideIn 0.3s ease;
         `;
         
-        // Add to page
         document.body.appendChild(notification);
         
-        // Remove after 3 seconds
         setTimeout(() => {
             notification.style.animation = 'slideOut 0.3s ease';
             setTimeout(() => {
@@ -251,7 +243,7 @@ class BookpangoApp {
     }
 }
 
-// Initialize the app when DOM is loaded
+// Initialize the app
 document.addEventListener('DOMContentLoaded', () => {
     const app = new BookpangoApp();
     window.bookpangoApp = app;
