@@ -1,1 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Review - Bookpango</title>
+    <meta name="description" content="Loading book review...">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container header-container">
+            <!-- Logo -->
+            <div class="logo">
+                <a href="/" class="logo-link">
+                    <span class="logo-text">Bookpango</span>
+                    <span class="logo-tagline">Global Book Reviews</span>
+                </a>
+            </div>
+            
+            <!-- Navigation -->
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li><a href="/categories.html" class="nav-link">Categories</a></li>
+                    <li><a href="/blog.html" class="nav-link">All Reviews</a></li>
+                    <li><a href="/about.html" class="nav-link">About</a></li>
+                    <li><a href="/contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <form action="/search.html" method="GET" class="search-form">
+                    <input type="text" name="q" class="search-input" placeholder="Search books...">
+                    <button type="submit" class="search-button">🔍</button>
+                </form>
+            </div>
+            
+            <!-- User Menu -->
+            <div class="user-menu">
+                <div class="auth-buttons" id="authButtons">
+                    <a href="/login.html" class="btn btn-outline">Sign In</a>
+                    <a href="/login.html?mode=signup" class="btn btn-primary">Sign Up</a>
+                </div>
+            </div>
+        </div>
+    </header>
 
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Loading State -->
+            <div id="loadingState" style="text-align: center; padding: 4rem;">
+                <h2>Loading Review...</h2>
+                <p>Please wait while we load the book review.</p>
+            </div>
+            
+            <!-- Post Content (will be populated by JavaScript) -->
+            <article id="postContent" style="display: none;">
+                <!-- Content will be loaded here -->
+            </article>
+            
+            <!-- Error State -->
+            <div id="errorState" style="display: none; text-align: center; padding: 4rem;">
+                <h2>Review Not Found</h2>
+                <p>The book review you're looking for doesn't exist or has been removed.</p>
+                <a href="/blog.html" class="btn btn-primary">Browse All Reviews</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Footer content -->
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Bookpango.com. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/firebase.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/database.js"></script>
+    <script src="/js/post.js"></script>
+</body>
+</html>
