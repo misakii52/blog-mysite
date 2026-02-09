@@ -29,7 +29,6 @@ class AdminManager {
     
     async loadDashboardData() {
         try {
-            // Load stats
             const postsSnapshot = await firebaseDb.collection('posts').get();
             const commentsSnapshot = await firebaseDb.collection('comments').get();
             
@@ -37,12 +36,10 @@ class AdminManager {
             const totalComments = commentsSnapshot.size;
             const pendingComments = commentsSnapshot.docs.filter(doc => !doc.data().isApproved).length;
             
-            // Update dashboard
             document.getElementById('totalPosts').textContent = totalPosts;
             document.getElementById('totalComments').textContent = totalComments;
             document.getElementById('pendingComments').textContent = pendingComments;
             
-            // Load recent posts
             this.loadRecentPosts();
             
         } catch (error) {
@@ -89,7 +86,6 @@ class AdminManager {
     }
     
     setupEventListeners() {
-        // Logout button
         const logoutBtn = document.getElementById('adminLogout');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', async () => {
@@ -98,7 +94,6 @@ class AdminManager {
             });
         }
         
-        // Delete post buttons
         document.addEventListener('click', async (e) => {
             if (e.target.classList.contains('btn-delete')) {
                 const postId = e.target.dataset.id;
@@ -111,9 +106,8 @@ class AdminManager {
     }
 }
 
-// Initialize admin when DOM is loaded
+// Initialize admin
 document.addEventListener('DOMContentLoaded', () => {
-    // Only initialize on admin pages
     if (window.location.pathname.includes('/admin/')) {
         const adminManager = new AdminManager();
         window.adminManager = adminManager;
