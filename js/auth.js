@@ -10,7 +10,6 @@ class AuthManager {
         firebaseAuth.onAuthStateChanged((user) => {
             this.user = user;
             this.updateUI();
-            console.log('Auth state changed:', user ? 'User logged in' : 'User logged out');
         });
     }
     
@@ -83,18 +82,15 @@ class AuthManager {
         const mobileAuthLinks = document.getElementById('mobileAuthLinks');
         
         if (this.user) {
-            // User is logged in
             if (authButtons) authButtons.style.display = 'none';
             if (loggedInMenu) loggedInMenu.style.display = 'flex';
             if (mobileAuthLinks) mobileAuthLinks.style.display = 'none';
             
-            // Update user avatar
             if (userAvatarImg && this.user.photoURL) {
                 userAvatarImg.src = this.user.photoURL;
                 userAvatarImg.alt = this.user.displayName || 'User';
             }
             
-            // Add logout handler
             const logoutButton = document.getElementById('logoutButton');
             if (logoutButton) {
                 logoutButton.onclick = async (e) => {
@@ -104,7 +100,6 @@ class AuthManager {
                 };
             }
         } else {
-            // User is logged out
             if (authButtons) authButtons.style.display = 'flex';
             if (loggedInMenu) loggedInMenu.style.display = 'none';
             if (mobileAuthLinks) mobileAuthLinks.style.display = 'flex';
@@ -130,16 +125,4 @@ class AuthManager {
 
 // Initialize Auth Manager
 const authManager = new AuthManager();
-
-// Export for use in other files
 window.authManager = authManager;
-
-// Check auth state on page load
-function checkAuthState() {
-    return new Promise((resolve) => {
-        const unsubscribe = firebaseAuth.onAuthStateChanged((user) => {
-            unsubscribe();
-            resolve(user);
-        });
-    });
-}
