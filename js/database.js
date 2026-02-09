@@ -179,7 +179,7 @@ class DatabaseManager {
             const commentWithMeta = {
                 ...commentData,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                isApproved: false // Admin approval required
+                isApproved: false
             };
             
             const docRef = await this.db.collection('comments').add(commentWithMeta);
@@ -189,63 +189,8 @@ class DatabaseManager {
             return { success: false, error: error.message };
         }
     }
-    
-    // Search operations
-    async searchPosts(query) {
-        try {
-            // Simple search implementation
-            const snapshot = await this.db.collection('posts')
-                .where('status', '==', 'published')
-                .get();
-            
-            const results = [];
-            const searchTerms = query.toLowerCase().split(' ');
-            
-            snapshot.forEach(doc => {
-                const post = doc.data();
-                let matches = 0;
-                
-                // Check title
-                if (post.title.toLowerCase().includes(query.toLowerCase())) {
-                    matches += 10;
-                }
-                
-                // Check content
-                if (post.content.toLowerCase().includes(query.toLowerCase())) {
-                    matches += 5;
-                }
-                
-                // Check author
-                if (post.bookInfo?.author?.toLowerCase().includes(query.toLowerCase())) {
-                    matches += 8;
-                }
-                
-                // Check tags
-                if (post.tags && post.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))) {
-                    matches += 3;
-                }
-                
-                if (matches > 0) {
-                    results.push({
-                        id: doc.id,
-                        ...post,
-                        relevance: matches
-                    });
-                }
-            });
-            
-            // Sort by relevance
-            results.sort((a, b) => b.relevance - a.relevance);
-            return results;
-        } catch (error) {
-            console.error('Error searching posts:', error);
-            return [];
-        }
-    }
 }
 
 // Initialize Database Manager
 const dbManager = new DatabaseManager();
-
-// Export for use in other files
 window.dbManager = dbManager;
