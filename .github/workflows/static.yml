@@ -1,43 +1,154 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Deploy to GitHub Pages
 
 on:
-  # Runs on pushes targeting the default branch
+  # Ana branch'e push yapıldığında çalışır
   push:
     branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
+  
+  # Manuel tetikleme için
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# İzinler
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+# Eşzamanlı deployment kontrolü
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-inprogress: true
 
 jobs:
-  # Single deploy job since we're just deploying
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Tüm history'yi çek
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          # Gerekli bağımlılıkları kur
+          npm init -y
+          npm install firebase-tools --save-dev
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Firebase setup and build
+        run: |
+          # Firebase config dosyasını oluştur
+          cat > firebase.json << 'EOF'
+          {
+            "hosting": {
+              "public": "public",
+              "ignore": [
+                "firebase.json",
+                "**/.*",
+                "**/node_modules/**"
+              ],
+              "rewrites": [
+                {
+                  "source": "**",
+                  "destination": "/index.html"
+                }
+              ],
+              "headers": [
+                {
+                  "source": "**/*.@(js|css)",
+                  "headers": [
+                    {
+                      "key": "Cache-Control",
+                      "value": "max-age=31536000"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+          EOF
+
+          # Sitemap ve robots.txt dosyalarını hazırla
+          cd public
+          echo "Building sitemap and robots.txt..."
+          
+          # robots.txt oluştur
+          cat > robots.txt << 'EOF'
+          User-agent: *
+          Allow: /
+          Disallow: /admin/
+          Disallow: /admin/*
+          Disallow: /login.html
+          
+          Sitemap: https://${{ github.event.repository.name }}.github.io/sitemap.xml
+          Host: ${{ github.event.repository.name }}.github.io
+          EOF
+
+          # Basit sitemap oluştur
+          cat > sitemap.xml << 'EOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <url>
+              <loc>https://${{ github.event.repository.name }}.github.io/</loc>
+              <lastmod>${{ github.event.repository.updated_at }}</lastmod>
+              <changefreq>daily</changefreq>
+              <priority>1.0</priority>
+            </url>
+            <url>
+              <loc>https://${{ github.event.repository.name }}.github.io/blog.html</loc>
+              <lastmod>${{ github.event.repository.updated_at }}</lastmod>
+              <changefreq>weekly</changefreq>
+              <priority>0.9</priority>
+            </url>
+            <url>
+              <loc>https://${{ github.event.repository.name }}.github.io/categories.html</loc>
+              <lastmod>${{ github.event.repository.updated_at }}</lastmod>
+              <changefreq>weekly</changefreq>
+              <priority>0.8</priority>
+            </url>
+            <url>
+              <loc>https://${{ github.event.repository.name }}.github.io/about.html</loc>
+              <lastmod>${{ github.event.repository.updated_at }}</lastmod>
+              <changefreq>monthly</changefreq>
+              <priority>0.7</priority>
+            </url>
+            <url>
+              <loc>https://${{ github.event.repository.name }}.github.io/contact.html</loc>
+              <lastmod>${{ github.event.repository.updated_at }}</lastmod>
+              <changefreq>monthly</changefreq>
+              <priority>0.7</priority>
+            </url>
+          </urlset>
+          EOF
+          cd ..
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # SADECE public klasörünü deploy et
+          path: './public'
+
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    needs: build
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: '.'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
