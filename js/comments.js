@@ -114,7 +114,7 @@ class CommentsManager {
     }
 }
 
-// Initialize comments when DOM is loaded
+// Initialize comments
 document.addEventListener('DOMContentLoaded', () => {
     const commentsManager = new CommentsManager();
     window.commentsManager = commentsManager;
