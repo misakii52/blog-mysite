@@ -3,5 +3,12 @@ Allow: /
 Disallow: /admin/
 Disallow: /admin/*
 Disallow: /login.html
+Disallow: /search.html?q=*
+
+Crawl-delay: 1
 
 Sitemap: https://www.bookpango.com/sitemap.xml
+Sitemap: https://www.bookpango.com/sitemap-posts.xml
+Sitemap: https://www.bookpango.com/sitemap-categories.xml
+
+Host: www.bookpango.com
