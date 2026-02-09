@@ -1,1 +1,126 @@
+/* Dark Mode Styles */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: #f3f4f6;
+        --text-light: #9ca3af;
+        --background-color: #111827;
+        --background-alt: #1f2937;
+        --border-color: #374151;
+    }
+    
+    body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+    }
+    
+    .main-header {
+        background-color: var(--background-alt);
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .search-form {
+        background-color: var(--background-color);
+        border: 1px solid var(--border-color);
+    }
+    
+    .search-input {
+        color: var(--text-color);
+    }
+    
+    .popular-item,
+    .book-card,
+    .review-card {
+        background-color: var(--background-alt);
+        border: 1px solid var(--border-color);
+    }
+    
+    .main-footer {
+        background-color: var(--background-alt);
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .footer-links a {
+        color: var(--text-light);
+    }
+    
+    .footer-links a:hover {
+        color: var(--primary-color);
+    }
+}
 
+/* Dark Mode Toggle */
+.dark-mode-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.toggle-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+.toggle-btn .sun-icon,
+.toggle-btn .moon-icon {
+    display: none;
+}
+
+.toggle-btn .sun-icon {
+    display: block;
+}
+
+[data-theme="dark"] .toggle-btn .sun-icon {
+    display: none;
+}
+
+[data-theme="dark"] .toggle-btn .moon-icon {
+    display: block;
+}
+
+/* Dark mode specific overrides */
+[data-theme="dark"] {
+    --text-color: #f3f4f6;
+    --text-light: #9ca3af;
+    --background-color: #111827;
+    --background-alt: #1f2937;
+    --border-color: #374151;
+}
+
+[data-theme="dark"] body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .main-header {
+    background-color: var(--background-alt);
+    border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] .btn-outline {
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .btn-outline:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+[data-theme="dark"] .slide-content {
+    background-color: rgba(0, 0, 0, 0.7);
+}
