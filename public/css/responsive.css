@@ -1,86 +1,106 @@
-/* Responsive Design */
+/* responsive.css - Responsive tasarım için */
+
+/* Tablet boyutu */
 @media (max-width: 1024px) {
-    .header-container {
-        flex-wrap: wrap;
-        gap: 1rem;
-    }
-    
-    .search-container {
-        order: 3;
-        flex: 1 1 100%;
-    }
-    
-    .main-nav {
-        order: 2;
-    }
-}
-
-@media (max-width: 768px) {
-    .mobile-menu-btn {
-        display: flex;
-    }
-    
-    .main-nav {
-        display: none;
-    }
-    
-    .mobile-nav.active {
-        display: block;
-    }
-    
-    .mobile-nav {
-        display: none;
-        background: white;
-        border-top: 1px solid var(--border-color);
-    }
-    
-    .mobile-nav-list {
-        list-style: none;
-        padding: 1rem;
-    }
-    
-    .mobile-nav-link {
-        display: block;
-        padding: 0.75rem 0;
-        text-decoration: none;
-        color: var(--dark-color);
-        border-bottom: 1px solid var(--border-color);
-    }
-    
-    .mobile-auth-links {
-        display: flex;
-        gap: 0.5rem;
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--border-color);
-    }
-    
-    .user-menu .auth-buttons {
-        display: none;
-    }
-    
-    .popular-grid,
-    .reviews-grid {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
-}
-
-@media (max-width: 480px) {
     .container {
         padding: 0 15px;
     }
-    
+
+    .popular-grid,
+    .reviews-grid,
+    .categories-grid,
+    .blog-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+/* Mobil boyutu */
+@media (max-width: 768px) {
     .header-container {
-        padding: 0.75rem 15px;
+        flex-direction: column;
+        align-items: flex-start;
     }
-    
-    .footer-grid {
-        grid-template-columns: 1fr;
+
+    .logo {
+        margin-bottom: 1rem;
     }
-    
+
+    .main-nav {
+        width: 100%;
+        margin: 1rem 0;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav-list li {
+        margin-left: 0;
+    }
+
+    .search-container {
+        width: 100%;
+    }
+
+    .search-input {
+        width: 100%;
+    }
+
+    .user-menu {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .hero-slider {
+        height: 250px;
+    }
+
+    .slide-content {
+        padding: 1rem;
+    }
+
+    .slide-title {
+        font-size: 1.2rem;
+    }
+
+    .slide-subtitle {
+        font-size: 0.9rem;
+    }
+
     .section-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 0.5rem;
+        gap: 10px;
+    }
+
+    .popular-grid,
+    .reviews-grid,
+    .categories-grid,
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+/* Küçük mobil */
+@media (max-width: 480px) {
+    .btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .book-actions {
+        flex-direction: column;
+    }
+
+    .book-actions .btn {
+        width: 100%;
+        text-align: center;
     }
 }
