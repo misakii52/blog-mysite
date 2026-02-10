@@ -1,128 +1,48 @@
-// Authentication Management
-class AuthManager {
-    constructor() {
-        this.user = null;
-        this.init();
-    }
+// Authentication state observer
+firebase.auth().onAuthStateChanged((user) => {
+    const authButtons = document.getElementById('authButtons');
+    const loggedInMenu = document.getElementById('loggedInMenu');
+    const userAvatarImg = document.getElementById('userAvatarImg');
+    const mobileAuthLinks = document.getElementById('mobileAuthLinks');
     
-    init() {
-        // Check auth state
-        firebaseAuth.onAuthStateChanged((user) => {
-            this.user = user;
-            this.updateUI();
-        });
-    }
-    
-    async loginWithEmail(email, password) {
-        try {
-            const userCredential = await firebaseAuth.signInWithEmailAndPassword(email, password);
-            return { success: true, user: userCredential.user };
-        } catch (error) {
-            console.error('Login error:', error);
-            return { success: false, error: error.message };
+    if (user) {
+        // User is signed in
+        if (authButtons) authButtons.style.display = 'none';
+        if (loggedInMenu) loggedInMenu.style.display = 'flex';
+        if (userAvatarImg) {
+            userAvatarImg.src = user.photoURL || '/assets/images/default-avatar.jpg';
+            userAvatarImg.alt = user.displayName || 'User';
         }
+        if (mobileAuthLinks) mobileAuthLinks.style.display = 'none';
+    } else {
+        // User is signed out
+        if (authButtons) authButtons.style.display = 'flex';
+        if (loggedInMenu) loggedInMenu.style.display = 'none';
+        if (mobileAuthLinks) mobileAuthLinks.style.display = 'flex';
     }
-    
-    async signupWithEmail(email, password, displayName) {
+});
+
+// Logout functionality
+const logoutButton = document.getElementById('logoutButton');
+if (logoutButton) {
+    logoutButton.addEventListener('click', async (e) => {
+        e.preventDefault();
         try {
-            const userCredential = await firebaseAuth.createUserWithEmailAndPassword(email, password);
-            await userCredential.user.updateProfile({
-                displayName: displayName
-            });
-            
-            // Create user document in Firestore
-            await this.createUserDocument(userCredential.user, displayName);
-            
-            return { success: true, user: userCredential.user };
-        } catch (error) {
-            console.error('Signup error:', error);
-            return { success: false, error: error.message };
-        }
-    }
-    
-    async loginWithGoogle() {
-        try {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            const userCredential = await firebaseAuth.signInWithPopup(provider);
-            return { success: true, user: userCredential.user };
-        } catch (error) {
-            console.error('Google login error:', error);
-            return { success: false, error: error.message };
-        }
-    }
-    
-    async logout() {
-        try {
-            await firebaseAuth.signOut();
-            return { success: true };
+            await firebase.auth().signOut();
+            window.location.href = '/';
         } catch (error) {
             console.error('Logout error:', error);
-            return { success: false, error: error.message };
+            alert('Error signing out. Please try again.');
         }
-    }
-    
-    async createUserDocument(user, displayName) {
-        const userData = {
-            uid: user.uid,
-            email: user.email,
-            displayName: displayName || user.displayName,
-            photoURL: user.photoURL || '',
-            role: 'user',
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-        };
-        
-        await firebaseDb.collection('users').doc(user.uid).set(userData);
-    }
-    
-    updateUI() {
-        const authButtons = document.getElementById('authButtons');
-        const loggedInMenu = document.getElementById('loggedInMenu');
-        const userAvatarImg = document.getElementById('userAvatarImg');
-        const mobileAuthLinks = document.getElementById('mobileAuthLinks');
-        
-        if (this.user) {
-            if (authButtons) authButtons.style.display = 'none';
-            if (loggedInMenu) loggedInMenu.style.display = 'flex';
-            if (mobileAuthLinks) mobileAuthLinks.style.display = 'none';
-            
-            if (userAvatarImg && this.user.photoURL) {
-                userAvatarImg.src = this.user.photoURL;
-                userAvatarImg.alt = this.user.displayName || 'User';
-            }
-            
-            const logoutButton = document.getElementById('logoutButton');
-            if (logoutButton) {
-                logoutButton.onclick = async (e) => {
-                    e.preventDefault();
-                    await this.logout();
-                    window.location.href = '/';
-                };
-            }
-        } else {
-            if (authButtons) authButtons.style.display = 'flex';
-            if (loggedInMenu) loggedInMenu.style.display = 'none';
-            if (mobileAuthLinks) mobileAuthLinks.style.display = 'flex';
-        }
-    }
-    
-    async checkAdminRole() {
-        if (!this.user) return false;
-        
-        try {
-            const userDoc = await firebaseDb.collection('users').doc(this.user.uid).get();
-            if (userDoc.exists) {
-                const userData = userDoc.data();
-                return userData.role === 'admin';
-            }
-            return false;
-        } catch (error) {
-            console.error('Error checking admin role:', error);
-            return false;
-        }
-    }
+    });
 }
 
-// Initialize Auth Manager
-const authManager = new AuthManager();
-window.authManager = authManager;
+// Mobile menu toggle
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileNav = document.getElementById('mobileNav');
+
+if (mobileMenuBtn && mobileNav) {
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileNav.classList.toggle('active');
+    });
+}
