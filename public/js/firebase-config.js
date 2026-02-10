@@ -12,16 +12,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
-const analytics = firebase.analytics();
+const auth = firebase.getAuth(app);
+const db = firebase.getFirestore(app);
+const storage = firebase.getStorage(app);
+const analytics = firebase.getAnalytics(app);
 
-// Export for use in other files
-window.firebaseApp = app;
-window.firebaseAuth = auth;
-window.firebaseDb = db;
-window.firebaseStorage = storage;
-window.firebaseAnalytics = analytics;
-
-console.log("Firebase initialized successfully!");
+console.log("Firebase initialized successfully");
